@@ -1,0 +1,147 @@
+﻿<Window x:Class="FF10_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FF10_2"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="FF10-2 SaveEditor(Nintendo Switch)" Height="500" Width="700"
+        AllowDrop="True" Drop="Window_Drop" PreviewDragOver="Window_PreviewDragOver">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Click="MenuItemFileOpen_Click"/>
+                    <MenuItem Header="Open_Force" Click="MenuItemFileOpenForce_Click"/>
+                    <MenuItem Header="_Save" Click="MenuItemFileSave_Click"/>
+                    <MenuItem Header="Save_As" Click="MenuItemFileSaveAs_Click"/>
+                    <Separator/>
+                    <MenuItem Header="_Exit" Click="MenuItemFileExit_Click"/>
+                </MenuItem>
+                <MenuItem Header="_About" Click="MenuItemAbout_Click"/>
+            </Menu>
+            <ToolBar DockPanel.Dock="Top">
+                <Button Height="32" Click="MenuItemFileOpen_Click">
+                    <Image Source="{StaticResource Open}"/>
+                </Button>
+                <Button Height="32" Click="MenuItemFileSave_Click">
+                    <Image Source="{StaticResource Save}"/>
+                </Button>
+            </ToolBar>
+            <TabControl>
+                <TabItem Header="Basic">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="15*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="GIL"/>
+                        <TextBox Grid.Column="1" Text="{Binding GIL}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Character">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox Name="ListBoxParty" ItemsSource="{Binding Party}"/>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition Height="4*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Lv"/>
+                            <TextBox Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Lv, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="1" Content="Exp"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Exp, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="2" Content="HP"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.HP, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="3" Content="MP"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.MP, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="4" Content="Attack"/>
+                            <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Attack, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="5" Content="Deffense"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Deffense, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="6" Content="Magic"/>
+                            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Magic, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="7" Content="MagicGuard"/>
+                            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.MagicGuard, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="8" Content="Speed"/>
+                            <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Speed, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="9" Content="Hit"/>
+                            <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Hit, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="10" Content="Avoidance"/>
+                            <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Avoidance, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Label Grid.Row="11" Content="Luck"/>
+                            <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding ElementName=ListBoxParty, Path=SelectedItem.Luck, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Item">
+                    <ListBox ItemsSource="{Binding Items}">
+                        <ListBox.Resources>
+                            <local:ItemConverter x:Key="ItemConverter"/>
+                        </ListBox.Resources>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Count : "/>
+                                    <TextBox Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Width="30"/>
+                                    <Label Content=" Name : "/>
+                                    <Button Content="..." Click="ButtonItemChoice_Click"/>
+                                    <Label Content="{Binding ID, Converter={StaticResource ItemConverter}}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+                <TabItem Header="Accessory">
+                    <ListBox ItemsSource="{Binding Accessoris}">
+                        <ListBox.Resources>
+                            <local:AccessoryConverter x:Key="AccessoryConverter"/>
+                        </ListBox.Resources>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Count : "/>
+                                    <TextBox Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}" Width="30"/>
+                                    <Label Content=" Name : "/>
+                                    <Button Content="..." Click="ButtonAccessoryChoice_Click"/>
+                                    <Label Content="{Binding ID, Converter={StaticResource AccessoryConverter}}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>
