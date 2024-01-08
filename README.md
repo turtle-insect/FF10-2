@@ -1,6 +1,6 @@
 ![DL Count](https://img.shields.io/github/downloads/turtle-insect/FF10-2/total.svg)
 
-# FF9
+# FF10-2
 Switch FF10-2 SaveDate Editor
 
 # Portal
